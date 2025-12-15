@@ -31,7 +31,6 @@ resource "aws_autoscaling_group" "back-asg" {
   max_size = 4
   desired_capacity = 2
 
-  # Launch instances in private subnets
   vpc_zone_identifier = [
     aws_subnet.tt-vpc-subnet-private1.id,
     aws_subnet.tt-vpc-subnet-private2.id
@@ -39,10 +38,9 @@ resource "aws_autoscaling_group" "back-asg" {
 
   launch_template {
     id = aws_launch_template.ubuntu20-back.id
-    version = "$Latest"
+    version = aws_launch_template.ubuntu20-front.latest_version
   }
 
-  # Health check
   health_check_grace_period = 300
   health_check_type         = "ELB"
 
@@ -51,7 +49,7 @@ resource "aws_autoscaling_group" "back-asg" {
 
 resource "aws_lb" "back-alb" {
   name = "alb-back"
-  internal = true # Should NOT be private facing. Cannot access it from web browser, but you can curl it from instances in the frontend/backend tier.
+  internal = true 
   load_balancer_type = "application"
   security_groups = [
     aws_security_group.sg-back.id
