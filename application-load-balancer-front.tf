@@ -5,7 +5,7 @@
 # Launch Template so ASG knows how to launch instances
 resource "aws_launch_template" "ubuntu20-front" {
   name = "ubuntu20-front"
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
   image_id = data.aws_ami.ubuntu20.image_id
   key_name = var.keypair
 

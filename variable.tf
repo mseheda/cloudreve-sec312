@@ -38,6 +38,12 @@ variable "keypair" {
 variable "tags" {
   type = map(string)
   default = {
-    Name = "3tier"
+    Name = "cloudreve"
   }
+}
+
+variable "name_prefix" {
+  type        = string
+  description = "Prefix for naming AWS resources (tags/identifiers)"
+  default     = "cloudreve"
 }

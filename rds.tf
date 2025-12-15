@@ -1,7 +1,7 @@
 # RDS's subnet groups decide how we're going to place our db instances
 resource "aws_db_subnet_group" "db-subnet" {
   name = "db-subnet"
-  tags = var.tags
+  tags = merge(var.tags, { Name = "${var.name_prefix}-rds-mysql" })
   # Put db in two private subnets in DB tier
   subnet_ids = [
     aws_subnet.tt-vpc-subnet-private3.id,
@@ -11,11 +11,11 @@ resource "aws_db_subnet_group" "db-subnet" {
 
 # The RDS instance we need
 resource "aws_db_instance" "db-back" {
-  storage_type = "gp2"
+  storage_type = "gp3"
   allocated_storage    = 20
   db_name              = var.db-name
   engine               = "mysql"
-  engine_version       = "8.0.35"
+  engine_version       = "8.0.44"
   instance_class       = "db.t3.micro"
   username             = var.db-username
   password             = var.db-password

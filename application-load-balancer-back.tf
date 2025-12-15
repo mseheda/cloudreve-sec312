@@ -1,6 +1,6 @@
 resource "aws_launch_template" "ubuntu20-back" {
   name = "ubuntu20-back"
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
   image_id = data.aws_ami.ubuntu20.image_id
   key_name = var.keypair
 

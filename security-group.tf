@@ -5,7 +5,7 @@
 resource "aws_security_group" "sg-front" {
   name = "front-sg"
   description = "Allow connection to the frontend tier"
-  tags = var.tags
+  tags = merge(var.tags, { Name = "${var.name_prefix}-sg-front-alb-public" })
   vpc_id = aws_vpc.tt-vpc.id
 
 
@@ -52,7 +52,7 @@ resource "aws_security_group" "sg-front" {
 resource "aws_security_group" "sg-back" {
   name = "back-sg"
   description = "Allow connection from the frontend tier"
-  tags = var.tags
+  tags = merge(var.tags, { Name = "${var.name_prefix}-sg-back-app-private" })
   vpc_id = aws_vpc.tt-vpc.id
 
   # Allow HTTP connection on Port 80 from frontend tier
@@ -108,7 +108,7 @@ resource "aws_security_group" "sg-back" {
 resource "aws_security_group" "sg-db" {
   name = "db-sg"
   description = "Allow connection from the backend tier"
-  tags = var.tags
+  tags = merge(var.tags, { Name = "${var.name_prefix}-sg-db-mysql-private" })
   vpc_id = aws_vpc.tt-vpc.id
 
   # Allow backend tier to connect to SQL server
